@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import RootScreen from './screens/RootScreen';
+import { Route } from 'react-router-dom';
+import * as ReadableAPI from './server/server-api';
 import './App.css';
 
 class App extends Component {
+
+  componentDidMount() {
+    // TODO - Make a call to go load all of the categories, posts, and comments into the Redux store.
+    ReadableAPI.getAllCategories().then((categories) => {
+      console.log(categories);
+    });
+    ReadableAPI.getAllPosts().then((posts) => {
+      console.log(posts);
+    });
+  }
+
+  // TODO - Add other screens to routes
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Route exact path="/" redner={() => (
+          <RootScreen/>
+        )}/>
       </div>
     );
   }
