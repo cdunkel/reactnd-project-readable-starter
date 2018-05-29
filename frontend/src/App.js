@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import store from './store';
 // import RootScreen from './screens/RootScreen';
 // import { Route } from 'react-router-dom';
-import * as ReadableAPI from './server/server-api';
 import './App.css';
+
+// Actions
+import fetchCategories from './actions/CategoryActions';
 
 class App extends Component {
 
@@ -14,41 +16,50 @@ class App extends Component {
   };
 
   componentDidMount() {
-    // TODO - Make a call to go load all of the categories, posts, and comments into the Redux store.
-    ReadableAPI.getAllCategories().then((categories) => {
-      this.setState({ categories });
-      console.log(this.state);
-    });
-    ReadableAPI.getAllPosts().then((posts) => {
-      this.setState({ posts });
-      console.log(this.state);
-    });
+    this.props.fetchCategories();
+
+    // ReadableAPI.getAllCategories().then((categories) => {
+    //   this.setState({ categories });
+    //   console.log(this.state);
+    // });
+    // ReadableAPI.getAllPosts().then((posts) => {
+    //   this.setState({ posts });
+    //   console.log(this.state);
+    // });
   }
 
   // TODO - Add other screens to routes
   render() {
 
-    const { categories, posts } = this.state;
+    const { categories } = this.props;
 
     return (
-      <Provider store={store}>
+      <div>
         <div>
           <div>
-            <div>
-              <h2>Categories</h2>
-            </div>
-            <div>
-              <ul style={{'listStyleType':'none'}}>
-                {categories.map((category) => (
-                  <li key={ category.path }>{ category.name }</li>
-                ))}
-              </ul>
-            </div>
+            <h2>Categories</h2>
+          </div>
+          <div>
+            <ul style={{'listStyleType':'none'}}>
+              { categories }
+            </ul>
           </div>
         </div>
-      </Provider>
+      </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    categories: state.categories,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    fetchCategories: () => { dispatch(fetchCategories()) },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
