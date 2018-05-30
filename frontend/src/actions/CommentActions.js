@@ -1,4 +1,6 @@
 
+import * as ReadableAPI from '../server/server-api';
+
 import {
   FETCH_COMMENTS_FOR_POST,
   ADD_COMMENT_TO_POST,
@@ -9,15 +11,31 @@ import {
   DELETE_COMMENT,
 } from "../actions/ActionTypes";
 
-export const fetchCommentsForPost = (dispatch) => {
-  // TODO - Get the data from somewhere
-  const data = {};
-  // Dispatch the data
-  dispatch({
-    type: FETCH_COMMENTS_FOR_POST,
-    payload: data
-  })
-};
+function fetchCommentsForPost(post) {
+  return function(dispatch) {
+    return ReadableAPI.getCommentsForPost(post).then((comments) => {
+      console.log('Get comments for post:');
+      console.log(comments);
+      dispatch({
+        type: FETCH_COMMENTS_FOR_POST,
+        payload: {
+          comments: comments,
+          post_id: post.id,
+        }
+      })
+    })
+  };
+}
+
+// export const fetchCommentsForPost = (dispatch) => {
+//   // TODO - Get the data from somewhere
+//   const data = {};
+//   // Dispatch the data
+//   dispatch({
+//     type: FETCH_COMMENTS_FOR_POST,
+//     payload: data
+//   })
+// };
 
 export const addCommentToPost = (dispatch) => {
   // TODO - Get the data from somewhere
@@ -78,3 +96,5 @@ export const deleteComment = (dispatch) => {
     payload: data
   })
 };
+
+export default fetchCommentsForPost;

@@ -10,16 +10,13 @@ import {
   DELETE_POST
 } from "../actions/ActionTypes";
 
-const initialState = {};
+const initialState = [];
 
 // TODO - Update to actually do stuff.
 function postReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_POSTS:
-      return {
-        ...state,
-        posts: action.payload
-      };
+      return action.payload;
     case FETCH_POSTS_BY_CATEGORY:
       // TODO
       return state;

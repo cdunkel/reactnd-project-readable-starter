@@ -11,12 +11,22 @@ import {
 
 const initialState = {};
 
+function reduceCommentsForPost(state, action) {
+  let postToUpdate = state.posts.filter((post) => {
+    return post.id === action.payload.post_id;
+  });
+  if (postToUpdate) {
+    postToUpdate.comments = action.comments;
+  }
+  console.log(state);
+  return state;
+}
+
 // TODO - Update to actually do stuff.
 function commentReducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_COMMENTS_FOR_POST:
-      // TODO
-      return state;
+      return reduceCommentsForPost(state, action);
     case ADD_COMMENT_TO_POST:
       // TODO
       return state;

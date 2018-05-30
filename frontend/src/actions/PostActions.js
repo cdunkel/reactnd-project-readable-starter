@@ -1,4 +1,6 @@
 
+import * as ReadableAPI from '../server/server-api';
+
 import {
   FETCH_POSTS,
   FETCH_POSTS_BY_CATEGORY,
@@ -10,15 +12,18 @@ import {
   DELETE_POST
 } from "./ActionTypes";
 
-export const fetchPosts = (dispatch) => {
-  // TODO - Get the data from somewhere
-  const data = {};
-  // Dispatch the data
-  dispatch({
-    type: FETCH_POSTS,
-    payload: data
-  })
-};
+function fetchPosts() {
+  return function(dispatch) {
+    return ReadableAPI.getAllPosts().then((posts) => {
+      console.log('fetch posts');
+      console.log(posts);
+      dispatch({
+        type: FETCH_POSTS,
+        payload: posts
+      })
+    })
+  };
+}
 
 export const fetchPostsByCategory = (dispatch) => {
   // TODO - Get the data from somewhere
@@ -89,3 +94,5 @@ export const deletePost = (dispatch) => {
     payload: data
   })
 };
+
+export default fetchPosts;
