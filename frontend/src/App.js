@@ -10,11 +10,6 @@ import fetchCategories from './actions/CategoryActions';
 
 class App extends Component {
 
-  state = {
-    categories: [],
-    posts: []
-  };
-
   componentDidMount() {
     this.props.fetchCategories();
 
@@ -41,7 +36,9 @@ class App extends Component {
           </div>
           <div>
             <ul style={{'listStyleType':'none'}}>
-              { categories }
+              {categories.map((category) => (
+                <li key={ category.name }>{ category.name }</li>
+              ))}
             </ul>
           </div>
         </div>
